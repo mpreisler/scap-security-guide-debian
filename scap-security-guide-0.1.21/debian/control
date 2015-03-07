@@ -1,0 +1,17 @@
+Source: scap-security-guide
+Section: admin
+Priority: optional
+Maintainer: Martin Preisler <martin@preisler.me>
+Build-Depends: debhelper (>= 8.0.0), libopenscap8 (>= 1.0.8), python, python-lxml, xsltproc, libxml2-utils, expat
+Standards-Version: 3.9.3
+Homepage: https://fedorahosted.org/scap-security-guide/
+#Vcs-Git: git://git.debian.org/collab-maint/scap-security-guide.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/scap-security-guide.git;a=summary
+
+Package: scap-security-guide
+Architecture: all
+Depends: ${misc:Depends}, libopenscap8
+Description: Community developed SCAP content
+ The scap-security-guide project (SSG) delivers security guidance, baselines,
+ and associated validation mechanisms utilizing the ​Security Content
+ Automation Protocol (SCAP).

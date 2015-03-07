@@ -1,0 +1,5 @@
+scap-security-guide (0.1.21-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Martin Preisler <martin@preisler.me>  Sat, 07 Mar 2015 21:27:54 +0100

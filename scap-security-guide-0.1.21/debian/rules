@@ -9,5 +9,39 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+PACKAGE=$(shell dh_listpackages)
+TMP=$(CURDIR)/debian/$(PACKAGE)
+
+PREFIX=$(TMP)/usr
+DATADIR=share
+MANDIR=man
+
 %:
 	dh $@ 
+
+override_dh_clean:
+	cd RHEL/6 && $(MAKE) clean
+	cd RHEL/7 && $(MAKE) clean
+	cd Fedora && $(MAKE) clean
+	find . -name "*.pyc" -exec rm {} \;
+	dh_clean
+
+override_dh_auto_build:
+	cd Fedora/ && $(MAKE) dist
+	cd RHEL/6/ && $(MAKE) dist
+	cd RHEL/7/ && $(MAKE) dist
+
+override_dh_auto_install:
+	install -d $(PREFIX)/$(DATADIR)/xml/scap/ssg/content/
+	install -d $(PREFIX)/$(DATADIR)/scap-security-guide
+	install -d $(PREFIX)/$(DATADIR)/scap-security-guide/kickstart
+	#install -d $(PREFIX)/$(MANDIR)/en/man8/
+	install -m 0644 Fedora/dist/content/* $(PREFIX)/$(DATADIR)/xml/scap/ssg/content/
+	#install -m 0644 Fedora/dist/guide/* $(PREFIX)/$(DATADIR)/scap-security-guide/
+	install -m 0644 RHEL/6/dist/content/* $(PREFIX)/$(DATADIR)/xml/scap/ssg/content/
+	install -m 0644 RHEL/6/input/fixes/bash/templates/functions $(PREFIX)/$(DATADIR)/scap-security-guide/
+	install -m 0644 RHEL/6/kickstart/*-ks.cfg $(PREFIX)/$(DATADIR)/scap-security-guide/kickstart
+	#install -m 0644 RHEL/6/dist/guide/* $(PREFIX)/$(DATADIR)/scap-security-guide/
+	install -m 0644 RHEL/7/dist/content/* $(PREFIX)/$(DATADIR)/xml/scap/ssg/content/
+	#install -m 0644 RHEL/7/dist/guide/* $(PREFIX)/$(DATADIR)/scap-security-guide/
+	#install -m 0644 docs/scap-security-guide.8 $(PREFIX)/$(MANDIR)/en/man8/
